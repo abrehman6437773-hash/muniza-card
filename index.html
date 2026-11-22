@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Happy Birthday MUNIZA 👑✨</title>
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d0814">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Canvas for Particle Dust & Interactive Touch Trail -->
+    <canvas id="ambientCanvas"></canvas>
+
+    <!-- Canvas for Fireworks & Sky Lanterns -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Music Control Button -->
+    <button id="musicBtn" class="luxury-sound-btn" aria-label="Toggle Music" title="Music On/Off">
+        <span id="musicIco">🎵</span>
+    </button>
+
+    <!-- Main Container Frame -->
+    <main class="luxury-wrapper">
+
+        <!-- ==================== SCENE 1: THE ROYAL ENVELOPE / 3D CARD ==================== -->
+        <section id="scene-intro" class="scene active">
+            <div class="intro-content">
+                <div class="sparkle-tag">✨ A ROYAL SURPRISE ✨</div>
+                <h1 class="intro-for">For Dearest</h1>
+                <h2 class="intro-muniza">MUNIZA</h2>
+
+                <!-- 3D Interactive Card Envelope -->
+                <div class="card-3d-box" id="sealBox">
+                    <div class="card-face card-front">
+                        <div class="card-gold-frame">
+                            <div class="corner-ornament co-tl">✦</div>
+                            <div class="corner-ornament co-tr">✦</div>
+                            <div class="corner-ornament co-bl">✦</div>
+                            <div class="corner-ornament co-br">✦</div>
+                            <div class="card-monogram">M</div>
+                            <p class="card-front-text">Exclusive Invitation</p>
+                            <div class="wax-seal" id="waxSeal">
+                                <div class="seal-inner">
+                                    <span class="seal-letter">M</span>
+                                </div>
+                                <div class="seal-glow"></div>
+                            </div>
+                            <p class="tap-seal-hint">Tap seal to unseal your gift</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-petals-prompt">👑 Tap anywhere to begin the celebration</div>
+            </div>
+        </section>
+
+        <!-- ==================== SCENE 2: THE ROYAL QUEEN REVEAL ==================== -->
+        <section id="scene-queen" class="scene">
+            <div class="scene-inner text-center">
+                <div class="crown-glow-wrap">
+                    <div class="royal-aura"></div>
+                    <div class="crown-icon">👑</div>
+                </div>
+
+                <div class="title-group">
+                    <span class="script-title">Happy 20th Birthday</span>
+                    <h1 class="gold-gradient-title">MUNIZA</h1>
+                    <div class="sub-royal-title">Queen of My Heart</div>
+                </div>
+
+                <div class="glass-quote-card">
+                    <p class="quote-text">
+                        "Your smile brings light into every darkness, your presence makes every ordinary day magical, and your heart is more precious than all the gold in the world."
+                    </p>
+                </div>
+
+                <div class="touch-hint-trail">✨ Touch the screen to cast golden stardust ✨</div>
+
+                <button class="gold-action-btn" id="btnQueenNext">Open Birthday Magic →</button>
+            </div>
+        </section>
+
+        <!-- ==================== SCENE 3: CRYSTAL WISHES JAR ==================== -->
+        <section id="scene-wishes" class="scene">
+            <div class="scene-inner text-center">
+                <div class="badge-pill">CHAPTER II</div>
+                <h2 class="scene-heading">Jar of 100 Wishes</h2>
+                <p class="scene-subheading">Tap the magical jar to reveal special blessings for you</p>
+
+                <div class="magic-jar-wrap" id="jarContainer">
+                    <div class="jar-glow"></div>
+                    <div class="jar-body">
+                        <div class="jar-lid"></div>
+                        <div class="jar-glass">
+                            <div class="jar-sparkles-inside">
+                                <span class="in-sparkle sp1">✨</span>
+                                <span class="in-sparkle sp2">⭐</span>
+                                <span class="in-sparkle sp3">💖</span>
+                                <span class="in-sparkle sp4">✨</span>
+                                <span class="in-sparkle sp5">🌟</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tap-jar-callout">👆 Tap the Jar</div>
+                </div>
+
+                <!-- Revealed Wish Card -->
+                <div class="wish-reveal-box" id="wishCard">
+                    <div class="wish-quote-symbol">❝</div>
+                    <p class="wish-content-text" id="wishText">Tap the jar to make your first wish...</p>
+                    <div class="wish-count-pill"><span id="wishCount">0</span>/5 Wishes Unlocked</div>
+                </div>
+
+                <button class="gold-action-btn" id="btnWishesNext" style="display: none;">Continue to The Cake 🎂</button>
+            </div>
+        </section>
+
+        <!-- ==================== SCENE 4: 3D ROYAL CAKE & CANDLE ==================== -->
+        <section id="scene-cake" class="scene">
+            <div class="scene-inner text-center">
+                <div class="badge-pill">CHAPTER III</div>
+                <h2 class="scene-heading">The Royal Cake</h2>
+                <p class="scene-subheading">Make a special wish for your 20th year, MUNIZA</p>
+
+                <!-- High-End 3D Animated Cake -->
+                <div class="grand-cake-stage" id="cakeStage">
+                    <div class="candle-holder" id="candleHolder">
+                        <div class="royal-flame" id="royalFlame">
+                            <div class="flame-gold-core"></div>
+                            <div class="flame-halo"></div>
+                        </div>
+                        <div class="candle-body">
+                            <span class="candle-digits">2006</span>
+                        </div>
+                    </div>
+
+                    <!-- 3-Tier Layered Luxury Cake -->
+                    <div class="cake-tiers">
+                        <div class="cake-tier tier-top">
+                            <div class="icing-decorations">
+                                <span>🍓</span><span>✨</span><span>🍓</span>
+                            </div>
+                        </div>
+                        <div class="cake-tier tier-middle">
+                            <div class="gold-lace-pattern"></div>
+                        </div>
+                        <div class="cake-tier tier-bottom">
+                            <div class="cake-inscription">MUNIZA</div>
+                        </div>
+                        <div class="silver-platter"></div>
+                    </div>
+                </div>
+
+                <div class="candle-prompt-text" id="candlePrompt">
+                    🔥 Tap the flame to blow out the candle and launch the grand celebration!
+                </div>
+
+                <button class="gold-action-btn" id="btnBlowCandle">💨 Blow Out Candle</button>
+            </div>
+        </section>
+
+        <!-- ==================== SCENE 5: THE GOLDEN PARCHMENT LETTER ==================== -->
+        <section id="scene-letter" class="scene">
+            <div class="scene-inner">
+                <div class="badge-pill center-block">CHAPTER IV</div>
+                <h2 class="scene-heading text-center">From The Heart</h2>
+
+                <div class="royal-parchment-sheet" id="parchmentContainer">
+                    <div class="parchment-gold-border">
+                        <div class="parchment-header">Dearest MUNIZA,</div>
+                        <div class="parchment-body" id="letterTypedBody"></div>
+                        <div class="parchment-signature" id="letterSign">
+                            Forever & Always,<br>
+                            <span class="sign-heart">With All My Love ❤️</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="gold-action-btn continue-btn-letter" id="btnLetterNext" disabled>Grand Finale Celebration 🎆</button>
+            </div>
+        </section>
+
+        <!-- ==================== SCENE 6: GRAND FINALE FIREWORKS SHOW ==================== -->
+        <section id="scene-finale" class="scene">
+            <div class="scene-inner text-center">
+                <div class="finale-royal-header">
+                    <div class="sparkling-crown">👑</div>
+                    <span class="grand-birthday-script">Happy Birthday</span>
+                    <h1 class="grand-muniza-title">MUNIZA</h1>
+                    <div class="grand-year-tag">✨ CELEBRATING YOU TODAY & FOREVER ✨</div>
+                </div>
+
+                <div class="finale-glass-card">
+                    <p class="finale-wish-text">
+                        May your life be as radiant as the stars tonight, full of blessings, pure peace, laughter, and every happiness this world has to offer! 💖
+                    </p>
+                </div>
+
+                <!-- Interactive Lantern Release Button -->
+                <div class="interactive-finale-actions">
+                    <button class="lantern-release-btn" id="btnReleaseLantern">
+                        🏮 Release a Sky Lantern
+                    </button>
+                    <button class="replay-all-btn" id="btnFullReplay">
+                        🔄 Replay Experience
+                    </button>
+                </div>
+
+                <div class="finale-signature-tag">
+                    Crafted with endless love & devotion for MUNIZA 💎
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

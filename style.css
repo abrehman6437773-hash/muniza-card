@@ -1,0 +1,1035 @@
+/* =============================================
+   MUNIZA - THE ROYAL BIRTHDAY CARD
+   Luxury High-End Responsive CSS
+   ============================================= */
+
+:root {
+    --bg-dark: #0B0711;
+    --bg-gradient: radial-gradient(circle at 50% 20%, #20112D 0%, #110819 50%, #08030D 100%);
+    --gold-1: #FFF2B2;
+    --gold-2: #F2C94C;
+    --gold-3: #D4AF37;
+    --gold-4: #AA771C;
+    --gold-gradient: linear-gradient(135deg, #FFF6CC 0%, #F5CE62 30%, #E5A93C 70%, #9E6B18 100%);
+    --gold-shimmer: linear-gradient(90deg, #D4AF37 0%, #FFF2B2 50%, #D4AF37 100%);
+    --rose-accent: #FF5E8E;
+    --rose-glow: rgba(255, 94, 142, 0.4);
+    --gold-glow: rgba(245, 206, 98, 0.45);
+    --glass-bg: rgba(28, 16, 40, 0.65);
+    --glass-border: rgba(245, 206, 98, 0.28);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg-dark);
+    color: #F8E9F0;
+}
+
+body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+}
+
+/* Background Particle & Fireworks Canvases */
+#ambientCanvas, #fireworksCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#ambientCanvas { z-index: 1; }
+#fireworksCanvas { z-index: 15; }
+
+/* Main Screen Wrapper */
+.luxury-wrapper {
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--bg-gradient);
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Luxury Sound Control Button */
+.luxury-sound-btn {
+    position: absolute;
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(30, 16, 42, 0.85);
+    border: 1px solid var(--gold-3);
+    color: var(--gold-2);
+    font-size: 19px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 14px var(--gold-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: transform 0.25s, box-shadow 0.25s;
+    backdrop-filter: blur(10px);
+}
+
+.luxury-sound-btn:active {
+    transform: scale(0.92);
+}
+
+.luxury-sound-btn.playing {
+    animation: goldSoundPulse 2s infinite;
+}
+
+@keyframes goldSoundPulse {
+    0%, 100% { box-shadow: 0 0 10px var(--gold-glow); }
+    50% { box-shadow: 0 0 24px rgba(255, 215, 0, 0.8), 0 0 35px var(--rose-glow); }
+}
+
+/* Scenes System */
+.scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 5;
+}
+
+.scene.active {
+    display: flex;
+    opacity: 1;
+    z-index: 20;
+}
+
+.scene.fade-enter {
+    animation: sceneZoomEnter 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.scene.fade-exit {
+    animation: sceneZoomExit 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sceneZoomEnter {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); filter: blur(4px); }
+    to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+@keyframes sceneZoomExit {
+    from { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    to { opacity: 0; transform: scale(1.05) translateY(-12px); filter: blur(4px); }
+}
+
+.scene-inner {
+    width: 100%;
+    height: 100%;
+    padding: max(20px, env(safe-area-inset-top)) max(22px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+    position: relative;
+    z-index: 2;
+}
+
+.scene-inner::-webkit-scrollbar { display: none; }
+.text-center { text-align: center; }
+
+/* Badges & Titles */
+.badge-pill {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(245, 206, 98, 0.12);
+    border: 1px solid var(--gold-3);
+    color: var(--gold-2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.center-block { margin: 0 auto 10px; display: table; }
+
+.scene-heading {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(20px, 5.5vw, 24px);
+    font-weight: 700;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.scene-subheading {
+    font-size: 13.5px;
+    color: rgba(240, 220, 240, 0.75);
+    margin-bottom: 16px;
+    max-width: 320px;
+    line-height: 1.45;
+}
+
+/* Gold Action Buttons */
+.gold-action-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 15px 28px;
+    border-radius: 30px;
+    border: none;
+    background: var(--gold-gradient);
+    color: #260B18;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(245, 206, 98, 0.4), 0 0 15px rgba(255, 255, 255, 0.2);
+    transition: transform 0.25s, box-shadow 0.25s, opacity 0.25s;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.gold-action-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: rotate(30deg);
+    animation: btnShimmer 3.5s infinite;
+}
+
+@keyframes btnShimmer {
+    0% { transform: translateX(-100%) rotate(30deg); }
+    20%, 100% { transform: translateX(100%) rotate(30deg); }
+}
+
+.gold-action-btn:active {
+    transform: scale(0.96);
+}
+
+.gold-action-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* =============================================
+   SCENE 1: THE ROYAL ENVELOPE / 3D CARD
+   ============================================= */
+
+.intro-content {
+    width: 100%;
+    height: 100%;
+    padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.sparkle-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold-2);
+    font-weight: 600;
+    margin-top: 8px;
+    animation: goldGlow 2.5s infinite alternate;
+}
+
+@keyframes goldGlow {
+    0% { text-shadow: 0 0 4px var(--gold-3); opacity: 0.7; }
+    100% { text-shadow: 0 0 15px var(--gold-1), 0 0 25px var(--gold-2); opacity: 1; }
+}
+
+.intro-for {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(32px, 8vw, 38px);
+    color: rgba(255, 220, 240, 0.9);
+    margin-top: -6px;
+}
+
+.intro-muniza {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(38px, 10vw, 48px);
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 4px 18px rgba(245, 206, 98, 0.4));
+}
+
+.card-3d-box {
+    width: clamp(260px, 72vw, 300px);
+    height: clamp(340px, 48vh, 390px);
+    perspective: 1000px;
+    cursor: pointer;
+    margin: 10px 0;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.card-face {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 30%, #301740 0%, #1A0D26 70%, #12081B 100%);
+    border-radius: 20px;
+    padding: 14px;
+    position: relative;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.25);
+    border: 1px solid rgba(245, 206, 98, 0.3);
+    animation: cardFloat 3.5s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.card-gold-frame {
+    width: 100%;
+    height: 100%;
+    border: 1.5px solid var(--gold-3);
+    border-radius: 14px;
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    background: rgba(18, 8, 26, 0.4);
+}
+
+.corner-ornament {
+    position: absolute;
+    color: var(--gold-2);
+    font-size: 16px;
+}
+.co-tl { top: 6px; left: 8px; }
+.co-tr { top: 6px; right: 8px; }
+.co-bl { bottom: 6px; left: 8px; }
+.co-br { bottom: 6px; right: 8px; }
+
+.card-monogram {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 42px;
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+.card-front-text {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 230, 245, 0.75);
+    font-weight: 500;
+}
+
+.wax-seal {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #FF5E8E, #C81E56, #800A30);
+    box-shadow: 0 8px 25px rgba(200, 30, 86, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.25s;
+    animation: sealPulse 2s ease-in-out infinite;
+}
+
+.wax-seal:hover {
+    transform: scale(1.08);
+}
+
+@keyframes sealPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(200, 30, 86, 0.6); }
+    50% { transform: scale(1.06); box-shadow: 0 10px 32px rgba(255, 94, 142, 0.85); }
+}
+
+.seal-inner {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seal-letter {
+    font-family: 'Great Vibes', cursive;
+    font-size: 38px;
+    color: #FFF2B2;
+    text-shadow: 1px 1px 4px rgba(60, 0, 20, 0.8);
+}
+
+.tap-seal-hint {
+    font-size: 12px;
+    color: var(--gold-2);
+    letter-spacing: 1px;
+}
+
+.floating-petals-prompt {
+    font-size: 12.5px;
+    color: rgba(255, 230, 245, 0.6);
+    margin-bottom: 6px;
+}
+
+/* =============================================
+   SCENE 2: THE ROYAL QUEEN REVEAL
+   ============================================= */
+
+.crown-glow-wrap {
+    position: relative;
+    width: 140px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto 14px;
+}
+
+.royal-aura {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 206, 98, 0.35) 0%, rgba(255, 94, 142, 0.2) 50%, transparent 75%);
+    animation: auraSpin 6s linear infinite;
+}
+
+@keyframes auraSpin {
+    0% { transform: rotate(0deg) scale(0.95); }
+    50% { transform: rotate(180deg) scale(1.15); }
+    100% { transform: rotate(360deg) scale(0.95); }
+}
+
+.crown-icon {
+    font-size: 78px;
+    filter: drop-shadow(0 6px 20px rgba(245, 206, 98, 0.6));
+    animation: crownFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.title-group {
+    margin-bottom: 14px;
+}
+
+.script-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(30px, 8vw, 36px);
+    color: var(--gold-1);
+    display: block;
+    line-height: 1;
+}
+
+.gold-gradient-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(40px, 11vw, 52px);
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    margin: 4px 0;
+    filter: drop-shadow(0 6px 22px rgba(245, 206, 98, 0.4));
+}
+
+.sub-royal-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--rose-accent);
+    text-transform: uppercase;
+}
+
+.glass-quote-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 22px 20px;
+    margin: 10px 0 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(245, 206, 98, 0.08);
+}
+
+.quote-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #F8E9F0;
+}
+
+.touch-hint-trail {
+    font-size: 12.5px;
+    color: rgba(245, 206, 98, 0.8);
+    margin-bottom: 8px;
+}
+
+/* =============================================
+   SCENE 3: CRYSTAL WISHES JAR
+   ============================================= */
+
+.magic-jar-wrap {
+    position: relative;
+    width: 140px;
+    height: 170px;
+    margin: 8px auto 14px;
+    cursor: pointer;
+    transition: transform 0.25s;
+}
+
+.magic-jar-wrap:active {
+    transform: scale(0.94);
+}
+
+.jar-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 94, 142, 0.3) 0%, rgba(245, 206, 98, 0.25) 50%, transparent 75%);
+    animation: jarGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes jarGlow {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.9; }
+}
+
+.jar-body {
+    width: 120px;
+    height: 155px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jar-lid {
+    width: 70px;
+    height: 16px;
+    background: linear-gradient(90deg, #D4AF37, #FFF2B2, #AA771C);
+    border-radius: 6px 6px 2px 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.jar-glass {
+    width: 110px;
+    height: 140px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 12px 12px 28px 28px;
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.25), 0 8px 25px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    margin-top: -2px;
+}
+
+.jar-sparkles-inside {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.in-sparkle {
+    position: absolute;
+    font-size: 18px;
+    animation: insideFloat 2.5s ease-in-out infinite alternate;
+}
+.sp1 { top: 20%; left: 25%; animation-delay: 0s; }
+.sp2 { top: 50%; left: 60%; animation-delay: 0.4s; }
+.sp3 { top: 65%; left: 20%; animation-delay: 0.8s; }
+.sp4 { top: 30%; left: 70%; animation-delay: 1.2s; }
+.sp5 { top: 75%; left: 50%; animation-delay: 1.6s; }
+
+@keyframes insideFloat {
+    0% { transform: translateY(0) scale(0.9); }
+    100% { transform: translateY(-10px) scale(1.15); }
+}
+
+.tap-jar-callout {
+    font-size: 13px;
+    color: var(--gold-2);
+    font-weight: 600;
+    margin-top: 8px;
+    animation: tapBounce 1.5s infinite;
+}
+
+@keyframes tapBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.wish-reveal-box {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 330px;
+    min-height: 125px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.wish-quote-symbol {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold-2);
+    line-height: 0.5;
+    margin-bottom: 4px;
+}
+
+.wish-content-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #F8E9F0;
+    margin-bottom: 10px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.wish-count-pill {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold-3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* =============================================
+   SCENE 4: 3D ROYAL CAKE & CANDLE
+   ============================================= */
+
+.grand-cake-stage {
+    position: relative;
+    width: clamp(240px, 68vw, 290px);
+    height: clamp(250px, 38vh, 290px);
+    margin: 8px auto 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.candle-holder {
+    position: absolute;
+    top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    cursor: pointer;
+}
+
+.royal-flame {
+    position: relative;
+    width: 28px;
+    height: 42px;
+    margin-bottom: -2px;
+    transition: opacity 0.4s, transform 0.4s;
+    animation: flameFlicker 0.25s infinite alternate ease-in-out;
+}
+
+.flame-gold-core {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 85%, #FFFFFF 0%, #FFF2B2 25%, #F2C94C 60%, #FF5E8E 95%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+.flame-halo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 70%);
+    animation: haloPulse 1.2s infinite alternate;
+}
+
+@keyframes flameFlicker {
+    0% { transform: scale(1) rotate(-2deg); }
+    100% { transform: scale(1.08) rotate(2deg); }
+}
+
+@keyframes haloPulse {
+    0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+.royal-flame.extinguished {
+    opacity: 0;
+    transform: scale(0.2);
+    pointer-events: none;
+}
+
+.candle-body {
+    width: 32px;
+    height: 48px;
+    background: linear-gradient(90deg, #D4AF37, #FFF2B2, #AA771C);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.candle-digits {
+    font-size: 9px;
+    font-weight: 800;
+    color: #4A1A28;
+    writing-mode: vertical-lr;
+    letter-spacing: 1px;
+}
+
+.cake-tiers {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cake-tier {
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.tier-top {
+    width: 130px;
+    height: 48px;
+    background: linear-gradient(180deg, #FFE8F0, #F8B4C8);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icing-decorations {
+    font-size: 16px;
+    display: flex;
+    gap: 12px;
+}
+
+.tier-middle {
+    width: 180px;
+    height: 54px;
+    background: linear-gradient(180deg, #3C1E4A, #281132);
+    border: 1px solid var(--gold-3);
+    margin-top: -6px;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.gold-lace-pattern {
+    width: 100%;
+    height: 12px;
+    background: repeating-linear-gradient(90deg, var(--gold-2), var(--gold-2) 6px, transparent 6px, transparent 12px);
+    opacity: 0.8;
+}
+
+.tier-bottom {
+    width: 230px;
+    height: 60px;
+    background: linear-gradient(180deg, #FFF0F5, #F5CAD4);
+    margin-top: -6px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cake-inscription {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 15px;
+    font-weight: 900;
+    color: #731C32;
+    letter-spacing: 3px;
+}
+
+.silver-platter {
+    width: 260px;
+    height: 14px;
+    background: linear-gradient(90deg, #999, #FFF, #AAA, #FFF, #888);
+    border-radius: 0 0 50% 50%;
+    margin-top: -4px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.candle-prompt-text {
+    font-size: 13px;
+    color: var(--gold-2);
+    margin: 8px 0;
+    max-width: 300px;
+}
+
+/* =============================================
+   SCENE 5: THE GOLDEN PARCHMENT LETTER
+   ============================================= */
+
+.royal-parchment-sheet {
+    width: 100%;
+    max-width: 350px;
+    height: clamp(340px, 52vh, 460px);
+    background: #FFFDF7;
+    border-radius: 18px;
+    padding: 12px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 206, 98, 0.25);
+    margin: 6px auto 14px;
+    overflow-y: auto;
+    position: relative;
+    scrollbar-width: none;
+}
+
+.royal-parchment-sheet::-webkit-scrollbar { display: none; }
+
+.parchment-gold-border {
+    width: 100%;
+    height: 100%;
+    border: 1.5px solid #D4AF37;
+    border-radius: 12px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.parchment-header {
+    font-family: 'Great Vibes', cursive;
+    font-size: 28px;
+    color: #8C1D40;
+    margin-bottom: 10px;
+}
+
+.parchment-body {
+    font-family: 'Playfair Display', serif;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: #2E1524;
+    white-space: pre-wrap;
+    min-height: 180px;
+}
+
+.type-blinker {
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background: #8C1D40;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blinker 0.7s infinite;
+}
+
+@keyframes blinker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.parchment-signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 22px;
+    color: #8C1D40;
+    text-align: right;
+    margin-top: 14px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.parchment-signature.show { opacity: 1; }
+.sign-heart { font-size: 19px; }
+
+/* =============================================
+   SCENE 6: GRAND FINALE FIREWORKS SHOW
+   ============================================= */
+
+.finale-royal-header {
+    margin: 8px 0 14px;
+}
+
+.sparkling-crown {
+    font-size: 48px;
+    animation: crownBounce 2s infinite ease-in-out;
+}
+
+@keyframes crownBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.1); }
+}
+
+.grand-birthday-script {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(34px, 9vw, 44px);
+    color: var(--gold-1);
+    display: block;
+    line-height: 1;
+}
+
+.grand-muniza-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(42px, 11vw, 54px);
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 5px;
+    line-height: 1.1;
+    margin: 6px 0;
+    filter: drop-shadow(0 6px 25px rgba(245, 206, 98, 0.5));
+}
+
+.grand-year-tag {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--rose-accent);
+    font-weight: 700;
+}
+
+.finale-glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 20px;
+    max-width: 340px;
+    margin: 8px auto 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.finale-wish-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #F8E9F0;
+}
+
+.interactive-finale-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: 14px;
+}
+
+.lantern-release-btn {
+    padding: 14px 24px;
+    border-radius: 30px;
+    border: 1px solid var(--gold-2);
+    background: rgba(245, 206, 98, 0.15);
+    color: var(--gold-1);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.25s;
+}
+
+.lantern-release-btn:active {
+    transform: scale(0.96);
+    background: rgba(245, 206, 98, 0.3);
+}
+
+.replay-all-btn {
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.replay-all-btn:active {
+    transform: scale(0.96);
+}
+
+.finale-signature-tag {
+    font-size: 12px;
+    color: rgba(245, 206, 98, 0.7);
+    margin-bottom: 6px;
+}
+
+/* =============================================
+   RESPONSIVE ADJUSTMENTS (SMALL MOBILES)
+   ============================================= */
+
+@media (max-height: 700px) {
+    .crown-glow-wrap { height: 100px; margin-top: 0; }
+    .crown-icon { font-size: 60px; }
+    .card-3d-box { height: 320px; }
+    .grand-cake-stage { height: 230px; }
+    .royal-parchment-sheet { height: 320px; }
+}
